@@ -6,19 +6,20 @@ import re
 
 f = open("./data/rsvp_agent_log.dat", "r")
 
-
 # print(f.readline()*5)
 # print(f.read())
-
 # for line in f:
 #     print(line.rstrip("\n"))
 
-# gotta be a cleaner way to do this
+
 def get_warning_lines(file):
     output = []
-    pattern = re.compile("(WARNING)")
-    for i, line in enumerate(file):
-        for match in re.finditer(pattern, line):
+    pattern = re.compile(".*(WARNING)")
+    for line in file:
+        # for match in re.finditer(pattern, line):
+        if re.match(pattern, line) is not None: # Match objects don't count as True.
+            # is not None is the standard way to check if there is a match if wanting
+            # a boolean.
             output.append(line.rstrip("\n"))
     return output
 # print(get_warning_lines(f))
@@ -36,7 +37,12 @@ def log_parser(file):
         print(remove_colon_dots(line))
 
 
-log_parser(f)
+# pattern = re.compile("(WARNING)")
+# matches = re.finditer(pattern, f.read())
+# print(matches.group(0))
+
+if __name__ == "__main__":
+    log_parser(f)
 
 
 
